@@ -9,7 +9,7 @@ Nrow = 4
 Ncol = 2
 secret = "2"
 host_ip = "https://sharelockers.localtunnel.me"
-connect = host_ip + '/hubs/poll/' + secret
+connect = host_ip + '/hubs/connected/' + secret
 poll = host_ip + '/hubs/poll/' + secret
 finished = host_ip + '/hubs/finished/' + secret
 rowl = [6, 13, 19, 26]
@@ -20,7 +20,7 @@ open_time = 3 # open the latch for ... seconds
 poll_time = 2
 
     # begin setup code
-def PiPinSetup();
+def PiPinSetup():
     RPi.GPIO.setmode(RPi.GPIO.BCM)  # Set pin numbering to GPIO, not BOARD pin
     for r in range(4): # configure the row output pins
         RPi.GPIO.setup(rowl[r], RPi.GPIO.OUT)
