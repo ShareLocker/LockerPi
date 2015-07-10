@@ -34,7 +34,8 @@ def open_location(row, column):
     RPi.GPIO.output(row_GPIO, True)
     RPi.GPIO.output(col_GPIO, True)
 
-while True:
+#while True:
+for k in range(1):
     for r in range(4):
         for c in range(2):
             open_location(r, c)
