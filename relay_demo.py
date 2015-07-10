@@ -24,8 +24,8 @@ def open_location(row, column):
     RPi.GPIO.output(column, True)
 
 while True:
-    #for row in rows:
-    #    for col in cols:
-    open_location(ROW1, COL1)
-    time.sleep(2)
+    for row in rows:
+        for col in cols:
+            open_location(ROW1, COL1)
+            time.sleep(2)
 RPi.GPIO.cleanup()
