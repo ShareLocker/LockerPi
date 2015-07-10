@@ -2,30 +2,41 @@ import RPi.GPIO
 import time
 import os
 import datetime
+import requests
 
-##
-ROW1 = 2
-ROW2 = 2
-COL1 = 3
-
-rows = [ROW1, ROW2] #...
-cols = [COL1]
-
+# hardware configuration
+Nrow = 4
+Ncol = 2
+secret = "2"
+host_ip = "https://sharelockers.localtunnel.me"
+connect = host_ip + '/hubs/poll/' + secret
+poll = host_ip + '/hubs/poll/' + secret
+finished = host_ip + '/hubs/finished/' + secret
 rowl = [6, 13, 19, 26]
 coll = [16, 20]
 
-RPi.GPIO.setmode(RPi.GPIO.BCM)  # Set pin numbering to GPIO, not BOARD pin
-#RPi.GPIO.setup(ROW1, RPi.GPIO.OUT) # Configure GPIO 2 as output
-#RPi.GPIO.setup(ROW2, RPi.GPIO.OUT)
-#RPi.GPIO.setup(COL1, RPi.GPIO.OUT)
+# behavior configuration
+open_time = 3 # open the latch for ... seconds
+poll_time = 2
 
-for r in range(4):
-    RPi.GPIO.setup(rowl[r], RPi.GPIO.OUT)
-    
-for c in range(2):
-    RPi.GPIO.setup(coll[c], RPi.GPIO.OUT)
+    # begin setup code
+def PiPinSetup();
+    RPi.GPIO.setmode(RPi.GPIO.BCM)  # Set pin numbering to GPIO, not BOARD pin
+    for r in range(4): # configure the row output pins
+        RPi.GPIO.setup(rowl[r], RPi.GPIO.OUT)
+    for c in range(2): # configure the column output pins
+        RPi.GPIO.setup(coll[c], RPi.GPIO.OUT)
 
-def open_location(row, column):
+resp = requests.get(connect)
+
+# functions for continuous polling operation
+def poll_status():
+    resp = requests.get(poll)
+    action, col, row = tuple(char for char in resp.text)[:3]
+    return action, col, row
+
+
+def open_location(column, row):
     row_GPIO = rowl[row]
     col_GPIO = coll[column]
     RPi.GPIO.output(row_GPIO, False)
@@ -34,14 +45,26 @@ def open_location(row, column):
     RPi.GPIO.output(row_GPIO, True)
     RPi.GPIO.output(col_GPIO, True)
 
+
+
 #while True:
-for k in range(1):
-    for r in range(4):
-        for c in range(2):
-            open_location(r, c)
-            time.sleep(0.5)
+#for k in range(1):
+#    for r in range(4):
+#        for c in range(2):
+#            open_location(r, c)
+#            time.sleep(0.5)
 #    for row in rows:
 #        for col in cols:
 #            open_location(ROW1, COL1)
 #            time.sleep(2)
-RPi.GPIO.cleanup()
+
+# constant loop
+while True:
+    action, col, row = poll_status()
+    if action == "?":
+        PiPinSetup()
+        open_location(col, row)
+        RPi.GPIO.cleanup()
+        time.sleep(open_time)
+    else:
+        time.sleep(poll_time)
