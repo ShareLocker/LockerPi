@@ -40,8 +40,8 @@ def poll_status():
 
 
 def open_location(column, row):
-    row_GPIO = rowl[row]
-    col_GPIO = coll[column]
+    row_GPIO = rowl[row-1]
+    col_GPIO = coll[column-1]
     RPi.GPIO.output(row_GPIO, False)
     RPi.GPIO.output(col_GPIO, False)
     time.sleep(open_time)
@@ -56,5 +56,5 @@ while True:
         open_location(col, row)
         RPi.GPIO.cleanup()
         time.sleep(open_time)
-    else:
-        time.sleep(poll_time)
+        resp = requests.get(finished)
+    time.sleep(poll_time)
