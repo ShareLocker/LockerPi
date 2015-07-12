@@ -7,8 +7,9 @@ import requests
 # hardware configuration
 Nrow = 4
 Ncol = 2
-secret = "2"
-host_ip = "https://sharelockers.localtunnel.me"
+secret = "1"
+#host_ip = "https://sharelockers.localtunnel.me"
+host_ip = "http://www.sharelockers.com"
 connect = host_ip + '/hubs/connected/' + secret
 poll = host_ip + '/hubs/poll/' + secret
 finished = host_ip + '/hubs/finished/' + secret
@@ -19,13 +20,13 @@ coll = [16, 20]
 open_time = 3 # open the latch for ... seconds
 poll_time = 2
 
-    # begin setup code
+# begin setup code
 def PiPinSetup(initial=False):
     RPi.GPIO.setmode(RPi.GPIO.BCM)  # Set pin numbering to GPIO, not BOARD pin
-	for pin in rowl + coll:
+    for pin in rowl + coll:
         RPi.GPIO.setup(pin, RPi.GPIO.OUT)
-		if initial:
-			RPi.GPIO.output(pin, True)
+        if initial:
+            RPi.GPIO.output(pin, True)
 
 
 PiPinSetup(initial=True)
@@ -40,20 +41,24 @@ def poll_status():
 
 
 def open_location(column, row):
-    row_GPIO = rowl[row]
-    col_GPIO = coll[column]
-    RPi.GPIO.output(row_GPIO, False)
-    RPi.GPIO.output(col_GPIO, False)
-    time.sleep(open_time)
-    RPi.GPIO.output(row_GPIO, True)
-    RPi.GPIO.output(col_GPIO, True)
-
+    try:
+        row_GPIO = rowl[row]
+        col_GPIO = coll[column]
+        RPi.GPIO.output(row_GPIO, False)
+        RPi.GPIO.output(col_GPIO, False)
+        time.sleep(open_time)
+        RPi.GPIO.output(row_GPIO, True)
+        RPi.GPIO.output(col_GPIO, True)
+    except IndexError:
+        pass  # FIXME: Catch index
 # constant loop
 while True:
     action, col, row = poll_status()
+    print(action, col, row)
     if action == "?":
+        print('Opening a locker', col, row)
         PiPinSetup()
-        open_location(col, row)
+        open_location(int(col), int(row))
         RPi.GPIO.cleanup()
         time.sleep(open_time)
     else:
