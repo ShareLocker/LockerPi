@@ -13,15 +13,15 @@ coll = [16, 20]
 # behavior configuration
 open_time = 3 # open the latch for ... seconds
 
-    # begin setup code
-def PiPinSetup():
+# begin setup code
+def PiPinSetup(initial=False):
     RPi.GPIO.setmode(RPi.GPIO.BCM)  # Set pin numbering to GPIO, not BOARD pin
-    for r in range(4): # configure the row output pins
-        RPi.GPIO.setup(rowl[r], RPi.GPIO.OUT)
-    for c in range(2): # configure the column output pins
-        RPi.GPIO.setup(coll[c], RPi.GPIO.OUT)
+    for pin in rowl + coll:
+        RPi.GPIO.setup(pin, RPi.GPIO.OUT)
+        if initial:
+            RPi.GPIO.output(pin, True)
 
-
+            
 def open_location(column, row):
     row_GPIO = rowl[row]
     col_GPIO = coll[column]
@@ -33,7 +33,7 @@ def open_location(column, row):
 
 PiPinSetup()
 
-for k in range(2): # cycle 2 times
+for k in range(1): # cycle 2 times
    for r in range(Nrow):
        for c in range(Ncol):
            open_location(c, r)
