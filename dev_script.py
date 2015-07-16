@@ -63,4 +63,5 @@ while True:
         RPi.GPIO.cleanup()
         time.sleep(open_time)
         resp = requests.get(finished)
+        os.system('espeak "Thank you for using ShareLocker. Have a nice day!"')
     time.sleep(poll_time)
