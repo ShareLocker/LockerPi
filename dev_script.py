@@ -54,7 +54,8 @@ def poll_status():
     except:
         print('Cannot connect right now, will try again shortly.')
         time.sleep(1)
-        return '#11'
+#        return '#11'
+        return "#", "1", "1"
 
 def open_location(column, row):
     try:
