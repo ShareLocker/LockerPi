@@ -32,29 +32,19 @@ def PiPinSetup(initial=False):
 
 PiPinSetup(initial=True)
 RPi.GPIO.cleanup()
-
-def initial_connection(wait_time):
-    try:
-        resp = requests.get(connect)
-        return True
-    except:
-        print('Cannot connect right now, will try again shortly.')
-        time.sleep(wait_time)
-        return False
-
-while not initial_connection(5):
-    pass
-
+try:
+    resp = requests.get(connect)
+except:
+    print('Cannot connect right now, will try again shortly.')
 # functions for continuous polling operation
 def poll_status():
     try:
         resp = requests.get(poll)
-        action, col, row = tuple(char for char in resp.text)[:3]
-        return action, col, row
     except:
         print('Cannot connect right now, will try again shortly.')
-        time.sleep(1)
-        return '#11'
+    action, col, row = tuple(char for char in resp.text)[:3]
+    return action, col, row
+
 
 def open_location(column, row):
     try:
