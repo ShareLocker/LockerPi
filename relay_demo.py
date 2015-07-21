@@ -20,7 +20,7 @@ def PiPinSetup(initial=False):
         RPi.GPIO.setup(pin, RPi.GPIO.OUT)
         if initial:
             RPi.GPIO.output(pin, True)
-
+            RPi.GPIO.output(pin, False)
             
 def open_location(column, row):
     row_GPIO = rowl[row]
