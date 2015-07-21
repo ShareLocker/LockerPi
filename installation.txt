@@ -12,3 +12,19 @@ git clone https://github.com/ShareLocker/LockerPi.git
 sudo apt-get install python3-pip
 (sudo pip3 install -r requirements.txt)
 sudo apt-get espeak
+
+
+Rotating Screen:
+https://community.risevision.com/rise_vision_inc/topics/how_can_i_use_raspberry_pi_on_my_portrait_monitors
+1. Edit the /boot/config.txt file (sudo nano /boot/config.txt) and add a line to the bottom (without the description):
+
+display_rotate=0 Normal
+display_rotate=1 90 degrees
+display_rotate=2 180 degrees
+display_rotate=3 270 degrees
+display_rotate=0x10000 horizontal flip
+display_rotate=0x20000 vertical flip
+
+I used display_rotate=1.
+
+2. Allocate more memory to the GPU (sudo raspi-config). I changed from 64M to 128M.
