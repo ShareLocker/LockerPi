@@ -1,0 +1,14 @@
+Insert blank microSD card, Connect monitor via hdmi, connect edimax wifi, mouse, kb
+Insert 5V microUSB power
+Install Raspbian on microSD card
+Select appropriate options in raspi config
+(boot into console)
+startx
+menu>preferences>Wifi Configuration
+set up wifi network name and password
+mkdir ¬/repo
+cd ¬/repo
+git clone https://github.com/ShareLocker/LockerPi.git
+sudo apt-get install python3-pip
+(sudo pip3 install -r requirements.txt)
+sudo apt-get espeak
