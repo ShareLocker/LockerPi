@@ -18,7 +18,7 @@ rowl = [6, 13, 19, 26]
 coll = [16, 20]
 
 # behavior configuration
-open_time = 1 # open the latch for ... seconds
+open_time = 5 # open the latch for ... seconds
 poll_time = 0.5#2
 
 # begin setup code

@@ -36,3 +36,9 @@ You can simply add the following lines at the end of ~/.bashrc (to open in a tex
 alias volu=’sudo amixer set PCM — $[$(amixer get PCM|grep -o [0-9]*%|sed ‘s/%//’)+5]%’
 # Decrease volume by 5%
 alias vold=’sudo amixer set PCM — $[$(amixer get PCM|grep -o [0-9]*%|sed ‘s/%//’)-5]
+
+
+setting the script to run on startup:
+sudo crontab -e
+then add this line:
+@reboot sh /home/pi/repo/LockerPi/boot-lockers.sh >/home/pi/logs/cronlog 2>&1
