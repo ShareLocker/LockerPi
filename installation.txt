@@ -33,12 +33,17 @@ Increase volume:
 http://andypi.co.uk/?page_id=418
 You can simply add the following lines at the end of ~/.bashrc (to open in a text editor: sudo nano ~/.bashrc). You’ll need to log out and log back in again, and then simply enter volu or vold at the command line to change the volume by 5%.
 # Increase volume by 5%
-alias volu=’sudo amixer set PCM — $[$(amixer get PCM|grep -o [0-9]*%|sed ‘s/%//’)+5]%’
+alias volu='sudo amixer set PCM — $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')+5]%'
 # Decrease volume by 5%
-alias vold=’sudo amixer set PCM — $[$(amixer get PCM|grep -o [0-9]*%|sed ‘s/%//’)-5]
+alias vold='sudo amixer set PCM — $[$(amixer get PCM|grep -o [0-9]*%|sed 's/%//')-5]%'
 
 
 setting the script to run on startup:
 sudo crontab -e
 then add this line:
 @reboot sh /home/pi/repo/LockerPi/boot-lockers.sh >/home/pi/logs/cronlog 2>&1
+
+change the keyboard layout from uk to us:
+sudo nano /etc/default/keyboard 
+change the keyboard type from "gb" to "us"
+
