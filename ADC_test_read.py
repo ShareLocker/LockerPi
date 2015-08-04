@@ -66,6 +66,7 @@ tolerance = 5       # to keep from being jittery we'll only change
                     # volume when the pot has moved more than 5 'counts'
  
 val_list = []
+print("trim_pot    pot_adjust     last_read")
 for iter in range(60):
         # we'll assume that the pot didn't move
         trim_pot_changed = False
@@ -77,15 +78,10 @@ for iter in range(60):
         val_list.append(trim_pot)
  
         if DEBUG:
-                print("trim_pot:"+ str(trim_pot))
-                print("pot_adjust:"+ str(pot_adjust))
-                print("last_read"+ str(last_read))
+                print(str(trim_pot).ljust(6)+str(pot_adjust).ljust(6)+str(last_read).ljust(6) + str(trim_pot_changed))
  
         if ( pot_adjust > tolerance ):
                trim_pot_changed = True
- 
-        if DEBUG:
-                print("trim_pot_changed"+ str(trim_pot_changed))
  
         if ( trim_pot_changed ):
                 last_read = trim_pot
